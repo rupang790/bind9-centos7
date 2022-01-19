@@ -22,3 +22,20 @@ Before installation, there is prerequested things.
 + Add label on each workers(nodes) to recognize the site.
   + For 'test' site: `oc labels node worker01 location-node=test`
   + For 'pangyo' site: `oc labels node worker02 location-node=pangyo`
+
+To install the chart,
+```
+$ helm install [RELEASE_NAME] [DIRECTORY_PATH_OF_CHART] --set workerLocation=[SITE_NAME],clientPod.enabled=true
+```
+
+If you do not want to install client pod for test, you can just ignore from `--set` option.
+
+Installtion Example:
+```
+>> For "test" sites with client pod
+$ helm install bind9-test . --set workerLocation=test,clientPod.enabled=true
+
+>> For "pangyo" sites without client pod
+$ helm install bind9-pangyo . --set workerLocation=pangyo
+```
+
