@@ -11,7 +11,9 @@ Network environment will be different on each site and DNS server will not provi
 
 ## Configuration
 Additional Network by Multus is not contained on Chart. Because on helm, Network-attachment-definition object is not recognized as resource. So that Network-attachment-definition would be created after deployment, and deployment was not deployed because of no network-attachment-definition resource. (If I am wrong, please comment for it.)
+
 A client pod is included for test the DNS queries. It can be enabled when install this chart with `--set` option.
+
 For now, it can be installed only for 2 different sites `test` and `pangyo`, but additional sites can be configured with modification of chart.
 
 ## Installation
