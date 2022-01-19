@@ -1,0 +1,24 @@
+$TTL 900
+@ IN SOA pg.test. root.pg.test. (
+
+    20200520;
+    86400;
+    3600;
+    86400;
+    3600;
+
+)
+
+    IN NS pg.test.
+
+85 IN PTR pg.test.
+
+81 IN PTR apps1.lab.pg.test.
+82 IN PTR apps2.lab.pg.test.
+83 IN PTR apps3.lab.pg.test.
+
+87 IN PTR webs.lab.pg.test.
+88 IN PTR nginx1.lab.pg.test.
+89 IN PTR nginx2.lab.pg.test.
+90 IN PTR nginx3.lab.pg.test.
+91 IN PTR nginx4.lab.pg.test.

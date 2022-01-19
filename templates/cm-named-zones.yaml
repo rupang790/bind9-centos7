@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-zones-configmap
+  namespace: {{ .Values.projectName }}
+  labels:
+    apps: "{{ .Values.workerLocation }}-named"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+{{- $varGlob := printf "%s%s/*" .Values.namedVarGlob .Values.workerLocation -}}
+{{ tpl (.Files.Glob $varGlob).AsConfig . | nindent 2 }}

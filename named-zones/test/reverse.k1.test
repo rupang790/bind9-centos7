@@ -1,0 +1,24 @@
+$TTL 900
+@ IN SOA k1.test. root.k1.test. (
+
+    20200520;
+    86400;
+    3600;
+    86400;
+    3600;
+
+)
+
+    IN NS k1.test.
+
+84 IN PTR k1.test.
+
+81 IN PTR apps1.lab.k1.test.
+82 IN PTR apps2.lab.k1.test.
+83 IN PTR apps3.lab.k1.test.
+
+86 IN PTR webs.lab.k1.test.
+88 IN PTR nginx1.lab.k1.test.
+89 IN PTR nginx2.lab.k1.test.
+90 IN PTR nginx3.lab.k1.test.
+91 IN PTR nginx4.lab.k1.test.

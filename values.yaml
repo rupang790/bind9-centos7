@@ -1,0 +1,85 @@
+# Default values for bind9-centos7.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Named Configfile Selection by Location(Site) of Worker
+workerLocation: 'test'
+
+projectName: 'named'
+
+nameOverride: "test"
+
+named:       
+  replicaCount: 1
+
+  image:
+    registry: image-registry.openshift-image-registry.svc:5000/named
+    repository: bind9
+    tag: "v1.0"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "v1.0"
+  
+  imagePullSecrets: []
+  
+  # Annotation Selection with workerLocation
+  multusIPs:
+    test: '[{"name": "bind9-macvlan-br1","ips" : [ "192.168.6.84/24" ],"default-route": [ "192.168.6.254" ]}]'
+    pangyo: '[{"name": "bind9-macvlan-br1","ips" : [ "192.168.6.85/24" ],"default-route": [ "192.168.6.254" ]}]'
+  
+  securityContext:
+    privileged: true
+
+  dnsSettings:
+    dnsPolicy: None
+    dnsConfig:
+      nameservers:
+       - 127.0.0.1
+  
+  resources:
+    limits:
+      cpu: "6000m"
+      memory: "6Gi"
+    requests:
+      cpu: "4000m"
+      memory: "4Gi"
+
+  # HaProxy-centos Image Mount Volume
+  # - Do not Change the path #
+  volumeMounts:
+  - mountPath: /tmp/etc
+    name: v1
+  - mountPath: /tmp/var
+    name: v2
+
+# File Locationfor Named Configurations
+namedEtcGlob: 'named-config/'
+namedVarGlob: 'named-zones/'
+
+# Client Pod Creation
+clientPod:
+  enabled: false
+  
+  image: 
+    registry: docker.io
+    repository: centos/tools
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  multusIPs:
+    test: '[{"name": "bind9-macvlan-br1","ips" : [ "192.168.6.81/24" ],"default-route": [ "192.168.6.254" ]}]'
+    pangyo: '[{"name": "bind9-macvlan-br1","ips" : [ "192.168.6.82/24" ],"default-route": [ "192.168.6.254" ]}]'
+
+  # Setting nameservers as location of worker (ex. test:84, pangyo:85)
+  dnsSettings:
+    dnsTest:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+         - 192.168.6.84
+
+    dnsPg:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+         - 192.168.6.85

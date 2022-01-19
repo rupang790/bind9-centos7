@@ -1,0 +1,36 @@
+{{- if .Values.clientPod.enabled }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-client
+  namespace: {{ .Values.projectName }}
+  labels:
+    apps: "{{ .Values.workerLocation }}-named"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  annotations:
+    {{- if eq .Values.workerLocation "test" }}
+      k8s.v1.cni.cncf.io/networks: {{- toYaml .Values.clientPod.multusIPs.test | indent 1 }}
+    {{- else if eq .Values.workerLocation "pangyo" }}
+      k8s.v1.cni.cncf.io/networks: {{- toYaml .Values.clientPod.multusIPs.pangyo | indent 1 }}
+    {{- end }}
+spec:
+  nodeSelector:
+    location-node: "{{ .Values.workerLocation }}"
+  {{- if eq .Values.workerLocation "test" }}
+    {{- with .Values.clientPod.dnsSettings.dnsTest }}
+      {{- toYaml . | nindent 2 }}
+    {{- end }}
+  {{- else if eq .Values.workerLocation "pangyo" }}
+    {{- with .Values.clientPod.dnsSettings.dnsPg }}
+      {{- toYaml . | nindent 2 }}
+    {{- end }}
+  {{- end }}
+  containers:
+    - image: {{ template "bind9-centos7.clientPod.image" . }}
+      imagePullPolicy: {{ .Values.clientPod.image.pullPolicy | quote }}
+      name: named
+      command: ["/bin/bash", "-c"]
+      args: [ "sleep inf" ]
+{{- end }}

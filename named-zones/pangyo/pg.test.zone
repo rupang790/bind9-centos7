@@ -1,0 +1,31 @@
+$TTL 1D
+@   IN SOA  @ pg.test. (
+                    20200520   ; serial
+                    1D  ; refresh
+                    1H  ; retry
+                    1W  ; expire
+                    3H )    ; minimum
+    IN NS   pg.test.
+    IN A    192.168.6.85
+@    IN NS   ns.pg.test.
+@    IN A    192.168.6.85
+ns  IN A    192.168.6.85
+
+;cluster name
+lab   IN CNAME    @
+
+;okd cluster
+apps1.lab.pg.test.   IN  A   192.168.6.81
+apps2.lab.pg.test. IN  A   192.168.6.82
+apps3.lab.pg.test. IN  A   192.168.6.83
+
+webs.lab.pg.test. IN A 192.168.6.87
+nginx1.lab.pg.test. IN A 192.168.6.88
+nginx2.lab.pg.test. IN A 192.168.6.89
+nginx3.lab.pg.test. IN A 192.168.6.90
+nginx4.lab.pg.test. IN A 192.168.6.91
+
+api-test.lab   IN CNAME    @
+apis.lab   IN CNAME    @
+*.apps.lab    IN CNAME    @
+apps.lab  IN CNAME    @
